@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@if (@Context.Session.GetString("Account") != null)
+{
+    <h2 class="h2">@Context.Session.GetString("Account")'s profile</h2>
+}
+else
+{
+    <h2 class="h2">ERROR: You are not logged in.</h2>
+}
+
