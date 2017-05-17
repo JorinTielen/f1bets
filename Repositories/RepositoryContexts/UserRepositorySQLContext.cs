@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
 using Repositories.Queries;
+using Models;
 
 namespace Repositories.RepositoryContexts
 {
@@ -27,6 +28,23 @@ namespace Repositories.RepositoryContexts
             }
         }
 
+        public int GetID(string username)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.GetID(username), connection);
+                connection.Open();
+                try
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public void CreateUser(string username, string password, string email)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -36,6 +54,52 @@ namespace Repositories.RepositoryContexts
                 try
                 {
                     command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void EditUser(int id, string username, string password, string email)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.EditUser(id, username, password, email), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public User GetUser(string username)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.GetUser(username), connection);
+                connection.Open();
+                try
+                {
+                    User u = null;
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            u = new User(
+                                (int)reader["id"],
+                                (string)reader["username"],
+                                (string)reader["password"],
+                                (string)reader["email_address"]);
+                        }
+                    }
+                    return u;
                 }
                 catch (SqlException e)
                 {

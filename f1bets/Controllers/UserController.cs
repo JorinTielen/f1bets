@@ -70,7 +70,6 @@ namespace f1bets.Controllers
                     repo.CreateUser(u.Username, u.Password, u.Email);
                     HttpContext.Session.SetString("Account", u.Username);
                     return RedirectToAction("Index", "Home");
-
                 }
                 catch (Exception)
                 {
@@ -81,10 +80,33 @@ namespace f1bets.Controllers
             return View(u);
         }
 
-        //MY PROFILE PAGE
-        public IActionResult MyProfile()
+        //SETTINGS PAGE
+        public IActionResult Settings()
         {
-            return View();
+            try
+            {
+                User u = repo.GetUser(HttpContext.Session.GetString("Account"));
+                return View(u);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Settings(User u)
+        {
+            try
+            {
+                u.ID = repo.GetID(HttpContext.Session.GetString("Account"));
+                repo.EditUser(u.ID, u.Username, u.Password, u.Email);
+            }
+            catch (Exception)
+            {
+                
+            }
+            return View(u);
         }
     }
 }
