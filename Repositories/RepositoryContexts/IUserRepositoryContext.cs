@@ -7,5 +7,6 @@ namespace Repositories.RepositoryContexts
     public interface IUserRepositoryContext
     {
         string GetPassword(string username);
+        void CreateUser(string username, string password, string email);
     }
 }

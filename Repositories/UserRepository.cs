@@ -16,5 +16,10 @@ namespace Repositories
         {
             return context.GetPassword(username);
         }
+
+        public void CreateUser(string username, string password, string email)
+        {
+            context.CreateUser(username, password, email);
+        }
     }
 }

@@ -26,5 +26,22 @@ namespace Repositories.RepositoryContexts
                 }
             }
         }
+
+        public void CreateUser(string username, string password, string email)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.CreateUser(username, password, email), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
     }
 }

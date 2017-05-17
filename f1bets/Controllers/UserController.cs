@@ -39,9 +39,8 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
-                    
+
                 }
-                
             }
             u.Password = "";
             return View(u);
@@ -66,8 +65,17 @@ namespace f1bets.Controllers
         {
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("Account", u.Username);
-                return RedirectToAction("Index", "Home");
+                try
+                {
+                    repo.CreateUser(u.Username, u.Password, u.Email);
+                    HttpContext.Session.SetString("Account", u.Username);
+                    return RedirectToAction("Index", "Home");
+
+                }
+                catch (Exception)
+                {
+
+                }
             }
             u.Password = "";
             return View(u);
