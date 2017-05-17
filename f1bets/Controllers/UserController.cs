@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Session;
 using Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Repositories;
+using Repositories.RepositoryContexts;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +16,7 @@ namespace f1bets.Controllers
 {
     public class UserController : Controller
     {
+        private UserRepository repo = new UserRepository(new UserRepositorySQLContext());
         //LOGIN PAGE
         [HttpGet]
         public IActionResult LogIn()
@@ -26,11 +29,19 @@ namespace f1bets.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (u.Username == "piet" && u.Password == "geheim")
+                try
                 {
-                    HttpContext.Session.SetString("Account", u.Username);
-                    return RedirectToAction("Index", "Home");
+                    if (repo.GetPassword(u.Username) == u.Password)
+                    {
+                        HttpContext.Session.SetString("Account", u.Username);
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
+                catch (Exception)
+                {
+                    
+                }
+                
             }
             u.Password = "";
             return View(u);
