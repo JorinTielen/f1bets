@@ -39,7 +39,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
-
+                    return RedirectToAction("LogIn", "User");
                 }
             }
             u.Password = "";
@@ -73,11 +73,25 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
-
+                    return RedirectToAction("LogIn", "User");
                 }
             }
             u.Password = "";
             return View(u);
+        }
+
+        //PROFILE PAGE
+        public IActionResult Profile(string username)
+        {
+            User u = repo.GetUser(username);
+            if (u != null)
+            {
+                return View(u);
+            }
+            else
+            {
+                return View("UserNotFound");
+            }
         }
 
         //SETTINGS PAGE
@@ -90,7 +104,7 @@ namespace f1bets.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return RedirectToAction("LogIn", "User");
             }
         }
 
@@ -101,10 +115,11 @@ namespace f1bets.Controllers
             {
                 u.ID = repo.GetID(HttpContext.Session.GetString("Account"));
                 repo.EditUser(u.ID, u.Username, u.Password, u.Email);
+                HttpContext.Session.SetString("Account", u.Username);
             }
             catch (Exception)
             {
-                
+                return RedirectToAction("LogIn", "User");
             }
             return View(u);
         }

@@ -57,8 +57,8 @@ namespace f1bets
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "default", template: "{controller=Home}/{action=Index}/{id?}")
+                    .MapRoute(name: "Profile", template: "{controller=User}/{username}/{action}");
             });
         }
     }

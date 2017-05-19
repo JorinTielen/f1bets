@@ -7,12 +7,12 @@ namespace Models
     {
         public int ID { get; set; }
 
-        [Required]
-        [MinLength(4)]
+        [Required(ErrorMessage="Username is required.")]
+        [MinLength(4, ErrorMessage = "Username must be 4 characters or longer.")]
         public string Username { get; set; }
 
-        [Required]
-        [MinLength(4)]
+        [Required(ErrorMessage = "Password is required.")]
+        [MinLength(4, ErrorMessage = "Password must be 4 characters or longer.")]
         public string Password { get; set; }
 
         [EmailAddress]
