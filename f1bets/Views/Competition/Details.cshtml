@@ -1,0 +1,27 @@
+﻿@using Models
+@model Competition
+
+<div class="jumbotron">
+    <h1>@Model.Name</h1>
+    <h3>@Model.Date | @Model.Circuit.Name</h3>
+    @if (Model.Date > DateTime.Now)
+    {
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Place Prediction</a></p>
+    }
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Circuit information</div>
+    <div class="panel-body">
+        <p>@Model.Circuit.Name</p>
+        <p>@Model.Circuit.Location | @Model.Circuit.Country</p>
+
+        <p>Laprecord: <span class="h6 label label-primary">@Model.Circuit.Laprecord.ToString(@"mm\:ss\.fff")</span></p>
+    </div>
+</div>
+
+@if (Model.Date < DateTime.Now)
+{
+    //show past results
+    //ViewBag.Results or something
+}

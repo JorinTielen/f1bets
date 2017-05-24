@@ -36,6 +36,7 @@ namespace f1bets
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //app.UseStatusCodeagesWithReExecute("Home/Error");
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -56,9 +57,9 @@ namespace f1bets
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default", template: "{controller=Home}/{action=Index}/{id?}")
-                    .MapRoute(name: "Profile", template: "{controller=User}/{username}/{action}");
+            routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}")
+                    .MapRoute("user", "User/{username}/{action}", new { controller = "User" })
+                    .MapRoute("competition", "Competition/{id}/{action}", new { controller = "Competition" });
             });
         }
     }

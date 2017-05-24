@@ -83,14 +83,21 @@ namespace f1bets.Controllers
         //PROFILE PAGE
         public IActionResult Profile(string username)
         {
-            User u = repo.GetUser(username);
-            if (u != null)
+            try
             {
-                return View(u);
+                User u = repo.GetUser(username);
+                if (u != null)
+                {
+                    return View(u);
+                }
+                else
+                {
+                    return View("UserNotFound");
+                }
             }
-            else
+            catch (Exception)
             {
-                return View("UserNotFound");
+                return RedirectToAction("LogIn", "User");
             }
         }
 
