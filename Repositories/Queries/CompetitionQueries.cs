@@ -23,7 +23,7 @@ namespace Repositories.Queries
 
         public static string GetNationality(int id)
         {
-            return $"SELECT [name], [flag] FROM Nationality WHERE id = {id}";
+            return $"SELECT [id], [name], [imagepath] FROM Nationality WHERE id = {id}";
         }
 
         internal static string GetUpcomingCompetitions()
@@ -43,7 +43,32 @@ namespace Repositories.Queries
 
         internal static string InsertResult(int competition_id, int driver_id, int points, int position, bool fastest)
         {
-            return $"INSERT INTO Competition_Driver (driver_id, competition_id, points, position) VALUES ({competition_id}, {driver_id}, {position}, {fastest})";
+            return $"INSERT INTO Competition_Driver (driver_id, competition_id, points, position, fastest) VALUES ({driver_id}, {competition_id}, {points}, {position}, 0)";
+        }
+
+        internal static string GetPastCompetitions()
+        {
+            return $"SELECT id, race_or_quali, track_id, [datetime], [name], lapcount FROM Competition WHERE[datetime] < GETDATE() ORDER BY[datetime]";
+        }
+
+        internal static string GetDriversInRace(int id)
+        {
+            return $"";
+        }
+
+        internal static string GetRoundNumberFromCompetitionID(int id)
+        {
+            return $"SELECT [roundNumber] FROM [Competition] WHERE [id] = {id}";
+        }
+
+        internal static string GetResultsFromRace(int id)
+        {
+            return $"SELECT * FROM Competition_Driver WHERE competition_id = {id}";
+        }
+
+        internal static string GetDriver(int id)
+        {
+            return $"SELECT * FROM DRIVER WHERE id = {id}";
         }
     }
 }

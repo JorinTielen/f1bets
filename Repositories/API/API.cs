@@ -32,12 +32,13 @@ namespace Repositories.API
                 using (HttpClient hc = new HttpClient())
                 {
                     string url = "http://ergast.com/api/f1/2017/" + roundNumber + "/results.json";
-                    if (!url.Contains("Circuit"))
+                    
+                    json = hc.GetStringAsync(url).Result;
+                    if (!json.Contains("Circuit"))
                     {
                         //de api is nog niet geupdate met de resultaten
                         return;
                     }
-                    json = hc.GetStringAsync(url).Result;
                     obj = JsonConvert.DeserializeObject<RootObject>(json);
                 }
             }
@@ -53,7 +54,6 @@ namespace Repositories.API
                 {
                     foreach (Result result in race.Results)
                     {
-
                         int driver_id = repo.GetDriverIDFromDriverNumber(Convert.ToInt32(result.Driver.permanentNumber));
                         int competition_id = repo.GetCompetitionIDFromRoundNumber(Convert.ToInt32(race.round));
                         int position = Convert.ToInt32(result.position);

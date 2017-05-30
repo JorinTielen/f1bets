@@ -9,7 +9,7 @@ namespace Repositories.RepositoryContexts
 {
     public class UserRepositorySQLContext : IUserRepositoryContext
     {
-        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets;Trusted_Connection=True;";
+        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets_dev;Trusted_Connection=True;";
 
         public string GetPassword(string username)
         {
@@ -92,11 +92,18 @@ namespace Repositories.RepositoryContexts
                     {
                         while (reader.Read())
                         {
+                            bool isAdmin = false;
+                            var admin = reader["admin"];
+                            if (!(admin is DBNull))
+                            {
+                                isAdmin = (bool)reader["admin"];
+                            }
                             u = new User(
                                 (int)reader["id"],
                                 (string)reader["username"],
                                 (string)reader["password"],
-                                (string)reader["email_address"]);
+                                (string)reader["email_address"],
+                                isAdmin);
                         }
                     }
                     return u;

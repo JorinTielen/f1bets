@@ -11,9 +11,13 @@ namespace Repositories.RepositoryContexts
         List<Competition> GetUpcomingCompetitions();
         Competition GetCompetition(int id);
         Circuit GetCircuit(int id);
-        string GetNationality(int id);
+        Nationality GetNationality(int id);
         int GetDriverIDFromDriverNumber(int id);
         int GetCompetitionIDFromRoundNumber(int roundNumber);
         void InsertResult(int competition_id, int driver_id, int points, int position, bool fastest);
+        List<Competition> GetPastCompetitions();
+        List<Driver> GetDriversInRace(int id);
+        int GetRoundNumberFromCompetitionID(int id);
+        List<Result> GetResultsFromRace(int id);
     }
 }

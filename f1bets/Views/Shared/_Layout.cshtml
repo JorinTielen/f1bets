@@ -1,5 +1,6 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @using Microsoft.AspNetCore.Http
+@using Models
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,7 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-primary navbar-btn" onclick="location.href='@Url.RouteUrl("Profile", new { controller = "User", action = "Profile", username = Context.Session.GetString("Account")})'">My Profile</button>
+                    <button type="button" class="btn btn-primary navbar-btn" onclick="location.href='User/@Context.Session.Get("Account").ToString()/Profile'">My Profile</button>
 
                     <button class="btn btn-primary dropdown-toggle navbar-btn" type="button" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-option-vertical"></span>
@@ -55,9 +56,8 @@
                         <li><a href="#">My Predictions</a></li>
                         <li><a asp-area="" asp-controller="User" asp-action="Settings">Account Settings<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">Log Out<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
+                        <li><a asp-area="" asp-controller="User" asp-action="LogOut">Log Out<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
                     </ul>
-
                 }
             </div>
         </div>

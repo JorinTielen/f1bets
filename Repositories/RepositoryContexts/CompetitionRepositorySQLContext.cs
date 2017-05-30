@@ -9,7 +9,7 @@ namespace Repositories.RepositoryContexts
 {
     public class CompetitionRepositorySQLContext : ICompetitionRepositoryContext
     {
-        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets;Trusted_Connection=True;";
+        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets_dev;Trusted_Connection=True;";
 
         public List<Competition> GetCompetitions()
         {
@@ -29,6 +29,37 @@ namespace Repositories.RepositoryContexts
                             c.Name    = (string)reader["name"];
                             c.Race    = (bool)reader["race_or_quali"];
                             c.Date    = (DateTime)reader["datetime"];
+                            c.Circuit = GetCircuit((int)reader["track_id"]);
+                            competitions.Add(c);
+                        }
+                        return competitions;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public List<Competition> GetPastCompetitions()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetPastCompetitions(), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Competition> competitions = new List<Competition>();
+                        while (reader.Read())
+                        {
+                            Competition c = new Competition();
+                            c.ID = (int)reader["id"];
+                            c.Name = (string)reader["name"];
+                            c.Race = (bool)reader["race_or_quali"];
+                            c.Date = (DateTime)reader["datetime"];
                             c.Circuit = GetCircuit((int)reader["track_id"]);
                             competitions.Add(c);
                         }
@@ -89,7 +120,7 @@ namespace Repositories.RepositoryContexts
                             c.ID = (int)reader["id"];
                             c.Name = (string)reader["name"];
                             c.Location = (string)reader["location"];
-                            c.Country = GetNationality((int)reader["nationality_id"]);
+                            c.Nationality = GetNationality((int)reader["nationality_id"]);
                             c.Laprecord = (TimeSpan)reader["laprecord"];
                             return c;
                         }
@@ -103,7 +134,7 @@ namespace Repositories.RepositoryContexts
             }
         }
 
-        public string GetNationality(int id)
+        public Nationality GetNationality(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -111,14 +142,17 @@ namespace Repositories.RepositoryContexts
                 connection.Open();
                 try
                 {
+                    Nationality n = new Nationality();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            return (string)reader["name"];
+                            n.ID = (int)reader["id"];
+                            n.Name = (string)reader["name"];
+                            n.ImagePath = (string)reader["imagepath"];
                         }
                     }
-                    return "";
+                    return n;
                 }
                 catch (SqlException e)
                 {
@@ -199,6 +233,118 @@ namespace Repositories.RepositoryContexts
                 try
                 {
                     command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public List<Driver> GetDriversInRace(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetDriversInRace(id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Driver> list = new List<Driver>();
+                        while (reader.Read())
+                        {
+                            Driver d = new Driver();
+                            d.ID = (int)reader["id"];
+                            d.Name = (string)reader["name"];
+                            d.SurName = (string)reader["surname"];
+                            d.Nationality = GetNationality((int)reader["nationality_id"]);
+                            d.TotalStarts = (int)reader["totalstarts"];
+                            list.Add(d);
+                        }
+                        return list;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public int GetRoundNumberFromCompetitionID(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetRoundNumberFromCompetitionID(id), connection);
+                connection.Open();
+                try
+                {
+                    return (int)command.ExecuteScalar();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public List<Result> GetResultsFromRace(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetResultsFromRace(id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Result> results = new List<Result>();
+                        while (reader.Read())
+                        {
+                            Result r = new Result();
+                            r.Driver = GetDriver((int)reader["driver_id"]);
+                            r.Points = (int)reader["points"];
+                            r.Position = (int)reader["position"];
+                            results.Add(r);
+                        }
+                        return results;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        private Driver GetDriver(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetDriver(id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        Driver d = new Driver();
+                        while (reader.Read())
+                        {
+                            d.ID            = (int)reader["id"];
+                            d.DriverNumber  = (int)reader["driverNumber"];
+                            d.Name          = (string)reader["name"];
+                            d.SurName       = (string)reader["surname"];
+                            d.Nationality   = GetNationality((int)reader["nationality_id"]);
+                            d.TotalStarts   = (int)reader["totalstarts"];
+                            d.TotalPodiums  = (int)reader["totalpodiums"];
+                            d.TotalWins     = (int)reader["totalwins"];
+                            d.TotalPolepositions = (int)reader["totalpolepositions"];
+                            d.TotalWDC      = (int)reader["totalwdc"];
+                            d.TotalPoints   = (int)reader["totalpoints"];
+                        }
+                        return d;
+                    }
                 }
                 catch (SqlException e)
                 {

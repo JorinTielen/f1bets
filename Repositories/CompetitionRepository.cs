@@ -29,6 +29,11 @@ namespace Repositories
             return context.GetCompetition(id);
         }
 
+        public List<Competition> GetPastCompetitions()
+        {
+            return context.GetPastCompetitions();
+        }
+
         public int GetDriverIDFromDriverNumber(int id)
         {
             return context.GetDriverIDFromDriverNumber(id);
@@ -39,9 +44,24 @@ namespace Repositories
             return context.GetCompetitionIDFromRoundNumber(roundNumber);
         }
 
+        public int GetRoundNumberFromRaceID(int id)
+        {
+            return context.GetRoundNumberFromCompetitionID(id);
+        }
+
         internal void InsertResult(int competition_id, int driver_id, int points, int position, bool fastest)
         {
             context.InsertResult(competition_id, driver_id, points, position, fastest);
+        }
+
+        public List<Driver> GetDriversInRace(int id)
+        {
+            return context.GetDriversInRace(id);
+        }
+
+        public List<Result> GetResultsFromRace(int id)
+        {
+            return context.GetResultsFromRace(id);
         }
     }
 }

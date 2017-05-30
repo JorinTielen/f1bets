@@ -15,6 +15,8 @@ namespace Models
         [MinLength(4, ErrorMessage = "Password must be 4 characters or longer.")]
         public string Password { get; set; }
 
+        public bool Admin { get; set; }
+
         [EmailAddress]
         public string Email { get; set; }
 
@@ -24,12 +26,13 @@ namespace Models
             this.Password = password;
         }
 
-        public User(int id, string username, string password, string email)
+        public User(int id, string username, string password, string email, bool admin)
         {
             this.ID = id;
             this.Username = username;
             this.Password = password;
             this.Email = email;
+            this.Admin = admin;
         }
 
         public User()

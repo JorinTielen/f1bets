@@ -18,7 +18,7 @@ namespace Repositories.Queries
 
         public static string GetUser(string username)
         {
-            return $"SELECT id, username, [password], email_address FROM [User] WHERE username = '{username}'";
+            return $"SELECT id, username, [password], email_address, [admin] FROM [User] WHERE username = '{username}'";
         }
 
         public static string CreateUser(string username, string password, string email)

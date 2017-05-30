@@ -1,27 +1,58 @@
 ﻿@using Models
-@model Competition
+@using f1bets.ViewModels
+@model ResultsViewModel
 
 <div class="jumbotron">
-    <h1>@Model.Name</h1>
-    <h3>@Model.Date | @Model.Circuit.Name</h3>
-    @if (Model.Date > DateTime.Now)
+    <h1>@Model.Competition.Name</h1>
+    <h3>@Model.Competition.Date | @Model.Competition.Circuit.Name</h3>
+    @if (Model.Competition.Date > DateTime.Now)
     {
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Place Prediction</a></p>
+        <p><a class="btn btn-primary btn-lg" asp-controller="Prediction" asp-action="MakePrediction" role="button">Place Prediction</a></p>
     }
 </div>
+
 
 <div class="panel panel-default">
     <div class="panel-heading">Circuit information</div>
     <div class="panel-body">
-        <p>@Model.Circuit.Name</p>
-        <p>@Model.Circuit.Location | @Model.Circuit.Country</p>
+        <p>@Model.Competition.Circuit.Name</p>
+        <p>@Model.Competition.Circuit.Location | @Model.Competition.Circuit.Nationality.Name</p>
 
-        <p>Laprecord: <span class="h6 label label-primary">@Model.Circuit.Laprecord.ToString(@"mm\:ss\.fff")</span></p>
+        <p>Laprecord: <span class="h6 label label-primary">@Model.Competition.Circuit.Laprecord.ToString(@"mm\:ss\.fff")</span></p>
     </div>
 </div>
 
-@if (Model.Date < DateTime.Now)
+@if (Model.Competition.Date < DateTime.Now)
 {
-    //show past results
-    //ViewBag.Results or something
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Driver
+                </th>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Points
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Driver.SurName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Position)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

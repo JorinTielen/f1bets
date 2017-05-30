@@ -50,6 +50,7 @@ namespace f1bets
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // Add static files to the request pipeline e.g. hello.html or world.css.
             app.UseStaticFiles();
 
             // IMPORTANT: This session call MUST go before UseMvc()
