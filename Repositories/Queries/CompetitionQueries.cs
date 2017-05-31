@@ -68,7 +68,12 @@ namespace Repositories.Queries
 
         internal static string GetDriver(int id)
         {
-            return $"SELECT * FROM DRIVER WHERE id = {id}";
+            return $"SELECT * FROM [Driver] WHERE id = {id}";
+        }
+
+        internal static string GetDrivers()
+        {
+            return $"SELECT * FROM [Driver]";
         }
     }
 }

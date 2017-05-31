@@ -47,13 +47,13 @@
                 }
                 else
                 {
-                    <button type="button" class="btn btn-primary navbar-btn" onclick="location.href='User/@Context.Session.Get("Account").ToString()/Profile'">My Profile</button>
-
+                    <button type="button" class="btn btn-primary navbar-btn" onclick="location.href='@Url.RouteUrl("user", new { controller = "User", Action = "Profile", Username = Context.Session.GetString("Account") })'">My Profile</button>
                     <button class="btn btn-primary dropdown-toggle navbar-btn" type="button" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-option-vertical"></span>
                     </button>
                     <ul class="dropdown-menu" style="width: 180px">
                         <li><a href="#">My Predictions</a></li>
+                        <li><a asp-area="" asp-controller="User" asp-action="Friends">My Friends<span class="glyphicon glyphicon-user pull-right"></span></a></li>
                         <li><a asp-area="" asp-controller="User" asp-action="Settings">Account Settings<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
                         <li role="separator" class="divider"></li>
                         <li><a asp-area="" asp-controller="User" asp-action="LogOut">Log Out<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
@@ -72,7 +72,7 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>    
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">

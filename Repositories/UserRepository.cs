@@ -1,6 +1,7 @@
 ﻿using System;
 using Repositories.RepositoryContexts;
 using Models;
+using System.Collections.Generic;
 
 namespace Repositories
 {
@@ -36,6 +37,26 @@ namespace Repositories
         public User GetUser(string username)
         {
             return context.GetUser(username);
+        }
+
+        public List<User> GetAcceptedFriends(int id)
+        {
+            return context.GetAcceptedFriends(id);
+        }
+
+        public List<UserFriend> GetPendingUserFriends(int id)
+        {
+            return context.GetPendingUserFriends(id);
+        }
+
+        public List<UserFriend> GetWaitingUserFriends(int id)
+        {
+            return context.GetWaitingUserFriends(id);
+        }
+
+        public void AcceptUserFriend(User u, int? friend_id)
+        {
+            context.AcceptUserFriend(u, friend_id);
         }
     }
 }

@@ -54,6 +54,11 @@ namespace Repositories
             context.InsertResult(competition_id, driver_id, points, position, fastest);
         }
 
+        public List<Driver> GetDrivers()
+        {
+            return context.GetDrivers();
+        }
+
         public List<Driver> GetDriversInRace(int id)
         {
             return context.GetDriversInRace(id);

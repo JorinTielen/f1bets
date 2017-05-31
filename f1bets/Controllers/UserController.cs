@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Repositories;
 using Repositories.RepositoryContexts;
+using f1bets.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -129,6 +130,69 @@ namespace f1bets.Controllers
                 return RedirectToAction("LogIn", "User");
             }
             return View(u);
+        }
+
+        public IActionResult Friends()
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != "" && username != null)
+            {
+                try
+                {
+                    User u = repo.GetUser(username);
+                    FriendsViewModel vm = new FriendsViewModel(u);
+                    vm.Friends = repo.GetAcceptedFriends(u.ID);
+                    vm.Pending = repo.GetPendingUserFriends(u.ID);
+                    vm.Waiting = repo.GetWaitingUserFriends(u.ID);
+                    if (u != null)
+                    {
+                        return View(vm);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return RedirectToAction("LogIn", "User");
+        }
+
+        public IActionResult Unfriend(int? id)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != "" && username != null)
+            {
+                try
+                {
+                    User u = repo.GetUser(username);
+                    //repo.Unfriend(u, id);
+                    //repo.UpdateUserFriend(u, id);
+
+                    return RedirectToAction("Friends");
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return RedirectToAction("LogIn", "User");
+        }
+
+        public IActionResult Accept(int? id)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != "" && username != null)
+            {
+                try
+                {
+                    User u = repo.GetUser(username);
+                    repo.AcceptUserFriend(u, id);
+
+                    return RedirectToAction("Friends");
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return RedirectToAction("LogIn", "User");
         }
     }
 }

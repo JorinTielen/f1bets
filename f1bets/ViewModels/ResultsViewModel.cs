@@ -10,5 +10,6 @@ namespace f1bets.ViewModels
     {
         public Competition Competition { get; set; }
         public List<Result> Results { get; set; }
+        public List<Driver> Drivers { get; set; }
     }
 }

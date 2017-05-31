@@ -6,17 +6,20 @@ namespace Models
 {
     public class Prediction
     {
-        public int FirstDriver_id { get; set;}
-        public int SecondDriver_id { get; set; }
-        public int ThirdDriver_id { get; set; }
+        List<PredictionComponent> Components { get; set; } = new List<PredictionComponent>();
 
         public User User { get; private set; }
         public Competition Competition { get; private set; }
 
-        public Prediction(User user, Competition competition)
+        public Prediction()
+        {
+        }
+
+        public Prediction(User user, Competition competition, List<PredictionComponent> components)
         {
             this.User = user;
             this.Competition = competition;
+            this.Components = components;
         }
     }
 }

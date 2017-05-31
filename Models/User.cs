@@ -6,14 +6,8 @@ namespace Models
     public class User
     {
         public int ID { get; set; }
-
-        [Required(ErrorMessage="Username is required.")]
-        [MinLength(4, ErrorMessage = "Username must be 4 characters or longer.")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Password is required.")]
-        [MinLength(4, ErrorMessage = "Password must be 4 characters or longer.")]
-        public string Password { get; set; }
+        public virtual string Username { get; set; }
+        public virtual string Password { get; set; }
 
         public bool Admin { get; set; }
 

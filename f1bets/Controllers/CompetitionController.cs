@@ -48,11 +48,13 @@ namespace f1bets.Controllers
             {
                 ResultsViewModel vm = new ResultsViewModel();
                 vm.Competition = repo.GetCompetition(id);
+                vm.Drivers = repo.GetDrivers();
                 if (vm.Competition.Date < DateTime.Now)
                 {
                     vm.Results = repo.GetResultsFromRace(vm.Competition.ID);
                 }
-                return View(vm);
+                ViewBag.CompetitionData = vm;
+                return View(new Prediction());
             }
             catch (Exception)
             {
@@ -61,18 +63,20 @@ namespace f1bets.Controllers
         }
 
         [HttpPost]
-
-        public IActionResult PostPrediction(Competition c, Prediction p)
+        public IActionResult Details(int id, Prediction p)
         {
             try
             {
-                //repo.insertprediction
-                //show succes dialog or something
-                return RedirectToAction("Details", c.ID);
+                ResultsViewModel vm = new ResultsViewModel();
+                vm.Competition = repo.GetCompetition(id);
+                if (vm.Competition.Date < DateTime.Now)
+                {
+                    vm.Results = repo.GetResultsFromRace(vm.Competition.ID);
+                }
+                return View(vm);
             }
             catch (Exception)
             {
-                //show error
                 return View("Error");
             }
         }

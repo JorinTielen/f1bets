@@ -19,5 +19,6 @@ namespace Repositories.RepositoryContexts
         List<Driver> GetDriversInRace(int id);
         int GetRoundNumberFromCompetitionID(int id);
         List<Result> GetResultsFromRace(int id);
+        List<Driver> GetDrivers();
     }
 }

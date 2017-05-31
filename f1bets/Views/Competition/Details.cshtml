@@ -1,37 +1,75 @@
 ﻿@using Models
 @using f1bets.ViewModels
-@model ResultsViewModel
+@model Prediction
 
 <div class="jumbotron">
-    <h1>@Model.Competition.Name</h1>
-    <h3>@Model.Competition.Date | @Model.Competition.Circuit.Name</h3>
-    @if (Model.Competition.Date > DateTime.Now)
+    <h1>@ViewBag.CompetitionData.Competition.Name</h1>
+    <h3>@ViewBag.CompetitionData.Competition.Date | @ViewBag.CompetitionData.Competition.Circuit.Name</h3>
+    @if (ViewBag.CompetitionData.Competition.Date > DateTime.Now)
     {
-        <p><a class="btn btn-primary btn-lg" asp-controller="Prediction" asp-action="MakePrediction" role="button">Place Prediction</a></p>
+        <p><a id="btnPredictionPlacer" class="btn btn-primary btn-lg" role="button">Place Prediction</a></p>
     }
+</div>
+
+<div id="PredictionPlacer" class="hidden">
+    <form method="post">
+        <div class="form-group">
+            <label for="FirstPlaceName">First place:</label>
+            <select name="FirstPlaceName" class="form-control">
+                @foreach (var driver in ViewBag.CompetitionData.Drivers)
+                {
+                    <option>@(driver.Name + " " + driver.SurName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="SecondPlaceName">Second Place:</label>
+            <select name="SecondPlaceName" class="form-control">
+                @foreach (var driver in ViewBag.CompetitionData.Drivers)
+                {
+                    <option>@(driver.Name + " " + driver.SurName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ThirdPlaceName">Third Place:</label>
+            <select name="ThirdPlaceName" class="form-control">
+                @foreach (var driver in ViewBag.CompetitionData.Drivers)
+                {
+                    <option>@(driver.Name + " " + driver.SurName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Place Prediction</button>
+        </div>
+    </form>
 </div>
 
 
 <div class="panel panel-default">
     <div class="panel-heading">Circuit information</div>
     <div class="panel-body">
-        <p>@Model.Competition.Circuit.Name</p>
-        <p>@Model.Competition.Circuit.Location | @Model.Competition.Circuit.Nationality.Name</p>
+        <p>@ViewBag.CompetitionData.Competition.Circuit.Name</p>
+        <p>@ViewBag.CompetitionData.Competition.Circuit.Location | @ViewBag.CompetitionData.Competition.Circuit.Nationality.Name</p>
 
-        <p>Laprecord: <span class="h6 label label-primary">@Model.Competition.Circuit.Laprecord.ToString(@"mm\:ss\.fff")</span></p>
+        <p>Laprecord: <span class="h6 label label-primary">@ViewBag.CompetitionData.Competition.Circuit.Laprecord.ToString(@"mm\:ss\.fff")</span></p>
     </div>
 </div>
 
-@if (Model.Competition.Date < DateTime.Now)
+@if (ViewBag.CompetitionData.Competition.Date < DateTime.Now)
 {
     <table class="table">
         <thead>
             <tr>
                 <th>
+                    Position
+                </th>
+                <th>
                     Driver
                 </th>
                 <th>
-                    Position
+                    Nationality
                 </th>
                 <th>
                     Points
@@ -39,20 +77,42 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Results)
+            @foreach (var item in ViewBag.CompetitionData.Results)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Driver.SurName)
+                        @item.Position
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Position)
+                        @(item.Driver.Name + " " + item.Driver.SurName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Points)
+                        @item.Driver.Nationality.Name
+                    </td>
+                    <td>
+                        @item.Points
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        var showPredictionPlacer = function () {
+            $("#PredictionPlacer").removeClass("hidden");
+        }
+
+        var DocumentReady = function () {
+            $("#btnPredictionPlacer").on("click", function () {
+                showPredictionPlacer();
+            });
+        }
+
+        $(document).ready(DocumentReady);
+    </script>
+
 }

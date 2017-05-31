@@ -352,5 +352,42 @@ namespace Repositories.RepositoryContexts
                 }
             }
         }
+
+        public List<Driver> GetDrivers()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetDrivers(), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Driver> drivers = new List<Driver>();
+                        while (reader.Read())
+                        {
+                            Driver d = new Driver();
+                            d.ID = (int)reader["id"];
+                            d.DriverNumber = (int)reader["driverNumber"];
+                            d.Name = (string)reader["name"];
+                            d.SurName = (string)reader["surname"];
+                            d.Nationality = GetNationality((int)reader["nationality_id"]);
+                            d.TotalStarts = (int)reader["totalstarts"];
+                            d.TotalPodiums = (int)reader["totalpodiums"];
+                            d.TotalWins = (int)reader["totalwins"];
+                            d.TotalPolepositions = (int)reader["totalpolepositions"];
+                            d.TotalWDC = (int)reader["totalwdc"];
+                            d.TotalPoints = (int)reader["totalpoints"];
+                            drivers.Add(d);
+                        }
+                        return drivers;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
     }
 }
