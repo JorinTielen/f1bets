@@ -46,7 +46,7 @@ namespace f1bets.Controllers
         {
             try
             {
-                ResultsViewModel vm = new ResultsViewModel();
+                DetailsViewModel vm = new DetailsViewModel();
                 vm.Competition = repo.GetCompetition(id);
                 vm.Drivers = repo.GetDrivers();
                 if (vm.Competition.Date < DateTime.Now)
@@ -67,7 +67,7 @@ namespace f1bets.Controllers
         {
             try
             {
-                ResultsViewModel vm = new ResultsViewModel();
+                DetailsViewModel vm = new DetailsViewModel();
                 vm.Competition = repo.GetCompetition(id);
                 if (vm.Competition.Date < DateTime.Now)
                 {

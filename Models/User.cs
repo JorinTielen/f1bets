@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models
@@ -13,6 +14,8 @@ namespace Models
 
         [EmailAddress]
         public string Email { get; set; }
+
+        public List<User> Friends { get; set; }
 
         public User(string username, string password)
         {

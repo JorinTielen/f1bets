@@ -89,6 +89,30 @@ namespace f1bets.Controllers
                 User u = repo.GetUser(username);
                 if (u != null)
                 {
+                    u.Friends = repo.GetAcceptedFriends(u.ID);
+                    ViewBag.LoggedInUser = repo.GetUser(HttpContext.Session.GetString("Account"));
+                    ViewBag.LoggedInUser.Friends = repo.GetAcceptedFriends(ViewBag.LoggedInUser.ID);
+
+                    ProfileType pt = ProfileType.Stranger;
+                    foreach (var friend in u.Friends)
+                {
+                    if (friend.Username == ViewBag.LoggedInUser.Username)
+                    {
+                        pt = ProfileType.Friend;
+                        break;
+                    }
+                    else if (u.Username == ViewBag.LoggedInUser.Username)
+                    {
+                        pt = ProfileType.Mine;
+                        break;
+                    }
+                    else
+                    {
+                        pt = ProfileType.Stranger;
+                    }
+                }
+                    ViewBag.ProfileType = pt;
+                
                     return View(u);
                 }
                 else
@@ -156,6 +180,27 @@ namespace f1bets.Controllers
             return RedirectToAction("LogIn", "User");
         }
 
+        public IActionResult AddFriend(int? id)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != "" && username != null)
+            {
+                try
+                {
+                    User u = repo.GetUser(username);
+                    repo.AddFriend(u, id);
+                    
+                    User friend = repo.GetUser(Convert.ToInt32(id));
+                    return RedirectToRoute(new { controller = "User", action = "Profile", username = friend.Username });
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return RedirectToAction("LogIn", "User");
+        }
+
+
         public IActionResult Unfriend(int? id)
         {
             string username = HttpContext.Session.GetString("Account");
@@ -164,8 +209,7 @@ namespace f1bets.Controllers
                 try
                 {
                     User u = repo.GetUser(username);
-                    //repo.Unfriend(u, id);
-                    //repo.UpdateUserFriend(u, id);
+                    repo.DeleteUserFriend(u, id);
 
                     return RedirectToAction("Friends");
                 }
@@ -185,6 +229,25 @@ namespace f1bets.Controllers
                 {
                     User u = repo.GetUser(username);
                     repo.AcceptUserFriend(u, id);
+
+                    return RedirectToAction("Friends");
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return RedirectToAction("LogIn", "User");
+        }
+
+        public IActionResult Decline(int? id)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != "" && username != null)
+            {
+                try
+                {
+                    User u = repo.GetUser(username);
+                    repo.DeleteUserFriend(u, id);
 
                     return RedirectToAction("Friends");
                 }

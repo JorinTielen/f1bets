@@ -6,7 +6,7 @@ using Models;
 
 namespace f1bets.ViewModels
 {
-    public class ResultsViewModel
+    public class DetailsViewModel
     {
         public Competition Competition { get; set; }
         public List<Result> Results { get; set; }

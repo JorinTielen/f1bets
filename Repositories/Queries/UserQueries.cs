@@ -57,5 +57,15 @@ namespace Repositories.Queries
         {
             return $"UPDATE User_Friend SET pending = 0 WHERE reciever_user_id = {u.ID} AND sender_user_id = {friend_id}";
         }
+
+        internal static string AddFriend(User u, int? id)
+        {
+            return $"INSERT INTO User_Friend (sender_user_id, reciever_user_id, pending) VALUES ({u.ID}, {Convert.ToInt32(id)}, 1)";
+        }
+
+        internal static string DeleteUserFriend(User u, int? id)
+        {
+            return $"DELETE FROM [User_Friend] WHERE (sender_user_id = {u.ID} AND reciever_user_id = {id}) OR (sender_user_id = {id} AND reciever_user_id = {u.ID})";
+        }
     }
 }

@@ -1,4 +1,20 @@
 ﻿@using Models
+@using Microsoft.AspNetCore.Http;
 @model User
 
 <h2 class="h2">@Model.Username's Profile</h2>
+
+@switch ((ProfileType)ViewBag.ProfileType)
+{
+    case ProfileType.Friend:
+        <a class="btn btn-primary" asp-controller="User" asp-action="Unfriend">Unfriend</a>
+        break;
+    case ProfileType.Mine:
+        <a class="btn btn-primary" asp-controller="User" asp-action="Settings">Account Settings</a>
+        break;
+    case ProfileType.Stranger:
+        <a class="btn btn-primary" asp-controller="User" asp-action="AddFriend" asp-route-id="@Model.ID">Add Friend</a>
+        break;
+
+}
+

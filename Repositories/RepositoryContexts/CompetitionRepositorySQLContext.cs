@@ -9,7 +9,7 @@ namespace Repositories.RepositoryContexts
 {
     public class CompetitionRepositorySQLContext : ICompetitionRepositoryContext
     {
-        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets_dev;Trusted_Connection=True;";
+        private static readonly string connectionString = @"Server= 192.168.19.12;Persist Security Info=False;User ID=frietpan;Password=frietpan;Database=f1bets_dev;";
 
         public List<Competition> GetCompetitions()
         {

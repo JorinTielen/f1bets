@@ -9,7 +9,7 @@ namespace Repositories.RepositoryContexts
 {
     public class UserRepositorySQLContext : IUserRepositoryContext
     {
-        private static readonly string connectionString = @"Server= DESKTOP-FB2QFPO;Database=f1bets_dev;Trusted_Connection=True;";
+        private static readonly string connectionString = @"Server= 192.168.19.12;Persist Security Info=False;User ID=frietpan;Password=frietpan;Database=f1bets_dev;";
 
         public string GetPassword(string username)
         {
@@ -228,6 +228,40 @@ namespace Repositories.RepositoryContexts
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(UserQueries.AcceptUserFriend(u, friend_id), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void AddFriend(User u, int? id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.AddFriend(u, id), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void DeleteUserFriend(User u, int? id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.DeleteUserFriend(u, id), connection);
                 connection.Open();
                 try
                 {

@@ -39,6 +39,11 @@ namespace Repositories
             return context.GetUser(username);
         }
 
+        public User GetUser(int id)
+        {
+            return context.GetUser(id);
+        }
+
         public List<User> GetAcceptedFriends(int id)
         {
             return context.GetAcceptedFriends(id);
@@ -57,6 +62,16 @@ namespace Repositories
         public void AcceptUserFriend(User u, int? friend_id)
         {
             context.AcceptUserFriend(u, friend_id);
+        }
+
+        public void AddFriend(User u, int? id)
+        {
+            context.AddFriend(u, id);
+        }
+
+        public void DeleteUserFriend(User u, int? id)
+        {
+            context.DeleteUserFriend(u, id);
         }
     }
 }
