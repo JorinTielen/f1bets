@@ -6,10 +6,10 @@ namespace Models
 {
     public class Prediction
     {
-        List<PredictionComponent> Components { get; set; } = new List<PredictionComponent>();
+        public List<PredictionComponent> Components { get; set; } = new List<PredictionComponent>();
 
-        public User User { get; private set; }
-        public Competition Competition { get; private set; }
+        public User User { get; set; }
+        public virtual Competition Competition { get; set; }
 
         public Prediction()
         {

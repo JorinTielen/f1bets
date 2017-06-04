@@ -6,7 +6,7 @@ namespace Models
 {
     public class PredictionComponent
     {
-        public Driver driver;
-        public int Position;
+        public int Driver_id { get; set; }
+        public int Position { get; set; }
     }
 }

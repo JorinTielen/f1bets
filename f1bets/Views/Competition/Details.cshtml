@@ -1,6 +1,6 @@
 ﻿@using Models
 @using f1bets.ViewModels
-@model Prediction
+@model PredictionViewModel
 
 <div class="jumbotron">
     <h1>@ViewBag.CompetitionData.Competition.Name</h1>
@@ -12,31 +12,32 @@
 </div>
 
 <div id="PredictionPlacer" class="hidden">
-    <form method="post">
+    <form asp-controller="Prediction" asp-action="Place" method="post">
+        @Html.Hidden("Competition_id", (int)ViewBag.CompetitionData.Competition.ID)
         <div class="form-group">
-            <label for="FirstPlaceName">First place:</label>
-            <select name="FirstPlaceName" class="form-control">
+            <label for="SelectedDriver1_id">First place:</label>
+            <select asp-for="SelectedDriver1_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                    <option>@(driver.Name + " " + driver.SurName)</option>
+                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>
         <div class="form-group">
-            <label for="SecondPlaceName">Second Place:</label>
-            <select name="SecondPlaceName" class="form-control">
+            <label for="SelectedDriver2_id">Second Place:</label>
+            <select asp-for="SelectedDriver2_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                    <option>@(driver.Name + " " + driver.SurName)</option>
+                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>
         <div class="form-group">
-            <label for="ThirdPlaceName">Third Place:</label>
-            <select name="ThirdPlaceName" class="form-control">
+            <label for="SelectedDriver3_id">Third Place:</label>
+            <select asp-for="SelectedDriver3_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                    <option>@(driver.Name + " " + driver.SurName)</option>
+                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>

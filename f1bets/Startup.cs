@@ -60,6 +60,7 @@ namespace f1bets
             {
             routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}")
                     .MapRoute("user", "User/{username}/{action}", new { controller = "User" })
+                    .MapRoute("prediction", "{controller=Prediction}/{action=Place}/{id}")
                     .MapRoute("competition", "Competition/{id}/{action}", new { controller = "Competition" });
             });
         }

@@ -54,26 +54,9 @@ namespace f1bets.Controllers
                     vm.Results = repo.GetResultsFromRace(vm.Competition.ID);
                 }
                 ViewBag.CompetitionData = vm;
-                return View(new Prediction());
-            }
-            catch (Exception)
-            {
-                return View("Error");
-            }
-        }
 
-        [HttpPost]
-        public IActionResult Details(int id, Prediction p)
-        {
-            try
-            {
-                DetailsViewModel vm = new DetailsViewModel();
-                vm.Competition = repo.GetCompetition(id);
-                if (vm.Competition.Date < DateTime.Now)
-                {
-                    vm.Results = repo.GetResultsFromRace(vm.Competition.ID);
-                }
-                return View(vm);
+                PredictionViewModel p = new PredictionViewModel();
+                return View(p);
             }
             catch (Exception)
             {
