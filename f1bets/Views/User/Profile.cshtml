@@ -4,17 +4,58 @@
 
 <h2 class="h2">@Model.Username's Profile</h2>
 
-@switch ((ProfileType)ViewBag.ProfileType)
-{
-    case ProfileType.Friend:
-        <a class="btn btn-primary" asp-controller="User" asp-action="Unfriend">Unfriend</a>
-        break;
-    case ProfileType.Mine:
-        <a class="btn btn-primary" asp-controller="User" asp-action="Settings">Account Settings</a>
-        break;
-    case ProfileType.Stranger:
-        <a class="btn btn-primary" asp-controller="User" asp-action="AddFriend" asp-route-id="@Model.ID">Add Friend</a>
-        break;
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h3 class="h3">Friends:</h3>
+            @switch ((ProfileType)ViewBag.ProfileType)
+            {
+                case ProfileType.Friend:
+                    <a class="btn btn-primary" asp-action="Unfriend" asp-route-id="@Model.ID">Unfriend</a>
+                    break;
+                case ProfileType.Mine:
+                    <a class="btn btn-primary" asp-controller="User" asp-action="Settings">Account Settings</a>
+                    break;
+                case ProfileType.Stranger:
+                    <a class="btn btn-primary" asp-action="AddFriend" asp-route-id="@Model.ID">Add Friend</a>
+                    break;
+            }
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Profile Picture
+                        </th>
+                        <th>
+                            Username
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var friend in Model.Friends)
+                    {
+                        <tr>
+                            <td>
+                                xD
+                            </td>
+                            <td>
+                                @Html.RouteLink(friend.Username, "user", new { Controller = "User", Action = "Profile", Username = friend.Username })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <p>
+                Here comes the content ayyyyyylmao
 
-}
+
+                dudududududuududdudududududuududdudududududuududdudududududuududdudududududuudud
+                dudududududuududdudududududuududdudududududuudud
+            </p>
+        </div>
+    </div>
+</div>
+
 

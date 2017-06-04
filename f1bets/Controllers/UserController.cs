@@ -87,27 +87,8 @@ namespace f1bets.Controllers
                     u.Friends = repo.GetAcceptedFriends(u.ID);
                     ViewBag.LoggedInUser = repo.GetUser(HttpContext.Session.GetString("Account"));
                     ViewBag.LoggedInUser.Friends = repo.GetAcceptedFriends(ViewBag.LoggedInUser.ID);
-
-                    ProfileType pt = ProfileType.Stranger;
-                    foreach (var friend in u.Friends)
-                {
-                    if (friend.Username == ViewBag.LoggedInUser.Username)
-                    {
-                        pt = ProfileType.Friend;
-                        break;
-                    }
-                    else if (u.Username == ViewBag.LoggedInUser.Username)
-                    {
-                        pt = ProfileType.Mine;
-                        break;
-                    }
-                    else
-                    {
-                        pt = ProfileType.Stranger;
-                    }
-                }
-                    ViewBag.ProfileType = pt;
-                
+                    
+                    ViewBag.ProfileType = DetermineProfileType(u, ViewBag.LoggedInUser);
                     return View(u);
                 }
                 else
@@ -119,6 +100,31 @@ namespace f1bets.Controllers
             {
                 return View("Error");
             }
+        }
+
+        public ProfileType DetermineProfileType(User ProfileUser, User LoggedInUser)
+        {
+            if (ProfileUser.Username == LoggedInUser.Username)
+            {
+                //is this my profile?
+                return ProfileType.Mine;
+            }
+            else if (ViewBag.LoggedInUser.Friends.Count == 0)
+            {
+                //i have no friends so he can't be my friend
+                return ProfileType.Stranger;
+            }
+            else
+            {
+                foreach (var friend in LoggedInUser.Friends)
+                {
+                    if (friend.Username == ProfileUser.Username)
+                    {
+                        return ProfileType.Friend;
+                    }
+                }
+            }
+            return ProfileType.Stranger;
         }
 
         //SETTINGS PAGE
@@ -193,9 +199,9 @@ namespace f1bets.Controllers
                 {
                     User u = repo.GetUser(username);
                     repo.AddFriend(u, id);
-                    
+
                     User friend = repo.GetUser(Convert.ToInt32(id));
-                    return RedirectToRoute(new { controller = "User", action = "Profile", username = friend.Username });
+                    return RedirectToAction("Friends");
                 }
                 catch (Exception)
                 {
