@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
 using Models;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Repositories;
 using Repositories.RepositoryContexts;
 using f1bets.ViewModels;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace f1bets.Controllers
 {
@@ -22,11 +17,11 @@ namespace f1bets.Controllers
         [HttpGet]
         public IActionResult LogIn()
         {
-            return View(new User());
+            return View(new LogInUserViewModel());
         }
 
         [HttpPost]
-        public IActionResult LogIn(User u)
+        public IActionResult LogIn(LogInUserViewModel u)
         {
             if (ModelState.IsValid)
             {
@@ -40,7 +35,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
-                    return RedirectToAction("LogIn", "User");
+                    return View("Error");
                 }
             }
             u.Password = "";
@@ -58,11 +53,11 @@ namespace f1bets.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new User());
+            return View(new UpdateUserViewModel());
         }
 
         [HttpPost]
-        public IActionResult Register(User u)
+        public IActionResult Register(UpdateUserViewModel u)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +69,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
-                    return RedirectToAction("LogIn", "User");
+                    return View("Error");
                 }
             }
             u.Password = "";
@@ -122,7 +117,7 @@ namespace f1bets.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("LogIn", "User");
+                return View("Error");
             }
         }
 
@@ -132,28 +127,36 @@ namespace f1bets.Controllers
             try
             {
                 User u = repo.GetUser(HttpContext.Session.GetString("Account"));
-                return View(u);
+                UpdateUserViewModel vm = new UpdateUserViewModel();
+                vm.Username = u.Username;
+                vm.Password = u.Password;
+                vm.Email = u.Email;
+                vm.ID = u.ID;
+                return View(vm);
             }
             catch (Exception)
             {
-                return RedirectToAction("LogIn", "User");
+                return View("Error");
             }
         }
 
         [HttpPost]
-        public IActionResult Settings(User u)
+        public IActionResult Settings(UpdateUserViewModel vm)
         {
             try
             {
-                u.ID = repo.GetID(HttpContext.Session.GetString("Account"));
-                repo.EditUser(u.ID, u.Username, u.Password, u.Email);
-                HttpContext.Session.SetString("Account", u.Username);
+                if (ModelState.IsValid)
+                {
+                    vm.ID = repo.GetID(HttpContext.Session.GetString("Account"));
+                    repo.EditUser(vm.ID, vm.Username, vm.Password, vm.Email);
+                    HttpContext.Session.SetString("Account", vm.Username);
+                }
             }
             catch (Exception)
             {
-                return RedirectToAction("LogIn", "User");
+                return View("Error");
             }
-            return View(u);
+            return View(vm);
         }
 
         public IActionResult Friends()
@@ -175,6 +178,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
+                    return View("Error");
                 }
             }
             return RedirectToAction("LogIn", "User");
@@ -195,6 +199,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
+                    return View("Error");
                 }
             }
             return RedirectToAction("LogIn", "User");
@@ -215,6 +220,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
+                    return View("Error");
                 }
             }
             return RedirectToAction("LogIn", "User");
@@ -234,6 +240,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
+                    return View("Error");
                 }
             }
             return RedirectToAction("LogIn", "User");
@@ -253,6 +260,7 @@ namespace f1bets.Controllers
                 }
                 catch (Exception)
                 {
+                    return View("Error");
                 }
             }
             return RedirectToAction("LogIn", "User");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
@@ -12,8 +11,7 @@ namespace Models
 
         public bool Admin { get; set; }
 
-        [EmailAddress]
-        public string Email { get; set; }
+        public virtual string Email { get; set; }
 
         public List<User> Friends { get; set; }
 
