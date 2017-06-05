@@ -12,6 +12,8 @@ namespace Models
 
         public User User { get; set; }
         public virtual Competition Competition { get; set; }
+        public int Points { get; set; }
+        public bool Checked { get; set; }
 
         public Prediction()
         {

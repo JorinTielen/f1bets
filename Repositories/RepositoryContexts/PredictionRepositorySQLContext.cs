@@ -33,6 +33,16 @@ namespace Repositories.RepositoryContexts
                             p.Competition = compRepo.GetCompetition((int)reader["competition_id"]);
                             p.Components = GetPredictionComponents(p.ID);
 
+                            p.Checked = false;
+                            foreach (var component in p.Components)
+                            {
+                                if (component.Checked == true)
+                                {
+                                    p.Points = (int)reader["points"];
+                                    p.Checked = true;
+                                }
+                            }
+
                             list.Add(p);
                         }
                         return list;
@@ -64,6 +74,13 @@ namespace Repositories.RepositoryContexts
                             pc.Driver_id = (int)reader["driver_id"];
                             pc.Driver = compRepo.GetDriver(pc.Driver_id);
                             pc.Position = (int)reader["position"];
+                            pc.Checked = (bool)reader["checked"];
+
+                            if (pc.Checked)
+                            {
+                                pc.Correct = (bool)reader["correct"];
+                            }
+
                             list.Add(pc);
                         }
                         return list;

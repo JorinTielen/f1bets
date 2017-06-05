@@ -29,7 +29,21 @@ namespace f1bets.Controllers
             if (u != null)
             {
                 List<Prediction> p = repo.GetAllPredictions(u);
-                ViewBag.MyPredictions = p;
+                List<Prediction> past = new List<Prediction>();
+                List<Prediction> future = new List<Prediction>();
+                foreach (var prediction in p)
+                {
+                    if (prediction.Checked)
+                    {
+                        past.Add(prediction);
+                    }
+                    else
+                    {
+                        future.Add(prediction);
+                    }
+                }
+                ViewBag.PastPredictions = past;
+                ViewBag.MyPredictions = future;
                 return View();
             }
             return RedirectToAction("LogIn", "User");
@@ -61,7 +75,7 @@ namespace f1bets.Controllers
                 try
                 {
                     repo.Place(p);
-                    return View("Index", "Prediction");
+                    return RedirectToAction("Index", "Prediction");
                 }
                 catch (Exception)
                 {

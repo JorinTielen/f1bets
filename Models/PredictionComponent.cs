@@ -11,5 +11,7 @@ namespace Models
         public int Driver_id { get; set; }
         public Driver Driver { get; set; }
         public int Position { get; set; }
+        public bool Checked { get; set; }
+        public bool Correct { get; set; }
     }
 }
