@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-
 using f1bets.ViewModels;
 using Models;
 using Repositories;
@@ -20,7 +19,20 @@ namespace f1bets.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("MyPredictions");
+        }
+
+        public IActionResult MyPredictions()
+        {
+            string username = HttpContext.Session.GetString("Account");
+            User u = UserRepo.GetUser(username);
+            if (u != null)
+            {
+                List<Prediction> p = repo.GetAllPredictions(u);
+                ViewBag.MyPredictions = p;
+                return View();
+            }
+            return RedirectToAction("LogIn", "User");
         }
 
         public IActionResult Place(PredictionViewModel vm)

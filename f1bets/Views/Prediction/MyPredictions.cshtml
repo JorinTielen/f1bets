@@ -1,0 +1,47 @@
+﻿@using Models
+@using f1bets.ViewModels
+
+@{
+    ViewData["Title"] = "My Predictions";
+}
+
+<h3 class="h3">My Predictions</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Competition
+            </th>
+            <th>
+                Prediction
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prediction in ViewBag.MyPredictions)
+        {
+            <tr>
+                <td>
+                    @prediction.Name
+                </td>
+                <td>
+                    @prediction.Competition.Name
+                </td>
+                <td>
+                    @foreach (var component in prediction.Components)
+                    {
+                        <p>@component.Driver.Name in @component.Position place, </p>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Competition" asp-route-id="@prediction.Competition.ID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

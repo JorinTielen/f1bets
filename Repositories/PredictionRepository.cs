@@ -19,5 +19,10 @@ namespace Repositories
         {
             context.Place(p);
         }
+
+        public List<Prediction> GetAllPredictions(User u)
+        {
+            return context.GetAllPredictions(u);
+        }
     }
 }

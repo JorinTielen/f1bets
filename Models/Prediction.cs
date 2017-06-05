@@ -6,6 +6,8 @@ namespace Models
 {
     public class Prediction
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
         public List<PredictionComponent> Components { get; set; } = new List<PredictionComponent>();
 
         public User User { get; set; }

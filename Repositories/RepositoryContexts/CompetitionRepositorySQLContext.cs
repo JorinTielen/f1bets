@@ -318,7 +318,7 @@ namespace Repositories.RepositoryContexts
             }
         }
 
-        private Driver GetDriver(int id)
+        public Driver GetDriver(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

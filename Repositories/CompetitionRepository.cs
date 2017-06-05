@@ -68,5 +68,10 @@ namespace Repositories
         {
             return context.GetResultsFromRace(id);
         }
+
+        public Driver GetDriver(int id)
+        {
+            return context.GetDriver(id);
+        }
     }
 }

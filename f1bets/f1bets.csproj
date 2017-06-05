@@ -32,8 +32,5 @@
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Repositories\Repositories.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Prediction\" />
-  </ItemGroup>
 
 </Project>

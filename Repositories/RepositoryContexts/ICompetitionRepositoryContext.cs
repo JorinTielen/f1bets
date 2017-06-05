@@ -11,6 +11,7 @@ namespace Repositories.RepositoryContexts
         List<Competition> GetUpcomingCompetitions();
         Competition GetCompetition(int id);
         Circuit GetCircuit(int id);
+        Driver GetDriver(int id);
         Nationality GetNationality(int id);
         int GetDriverIDFromDriverNumber(int id);
         int GetCompetitionIDFromRoundNumber(int roundNumber);
