@@ -14,6 +14,8 @@ namespace f1bets.Controllers
     public class CompetitionController : Controller
     {
         private CompetitionRepository repo = new CompetitionRepository(new CompetitionRepositorySQLContext());
+        private UserRepository userRepo = new UserRepository(new UserRepositorySQLContext());
+
         public IActionResult Index()
         {
             try
@@ -49,6 +51,7 @@ namespace f1bets.Controllers
                 DetailsViewModel vm = new DetailsViewModel();
                 vm.Competition = repo.GetCompetition(id);
                 vm.Drivers = repo.GetDrivers();
+                ViewBag.Reactions = repo.GetReactions(id);
                 if (vm.Competition.Date < DateTime.Now)
                 {
                     vm.Results = repo.GetResultsFromRace(vm.Competition.ID);
@@ -61,6 +64,30 @@ namespace f1bets.Controllers
             catch (Exception)
             {
                 return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddReaction(Reaction r)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != null)
+            {
+                try
+                {
+                    r.User = userRepo.GetUser(username);
+                    repo.AddReaction(r);
+
+                    return RedirectToRoute("competition", new { action = "Details", id = r.Competition_id });
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "User");
             }
         }
     }

@@ -21,5 +21,7 @@ namespace Repositories.RepositoryContexts
         int GetRoundNumberFromCompetitionID(int id);
         List<Result> GetResultsFromRace(int id);
         List<Driver> GetDrivers();
+        List<Reaction> GetReactions(int competition_id);
+        void AddReaction(Reaction r);
     }
 }

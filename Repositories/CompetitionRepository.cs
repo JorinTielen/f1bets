@@ -54,6 +54,11 @@ namespace Repositories
             context.InsertResult(competition_id, driver_id, points, position, fastest);
         }
 
+        public List<Reaction> GetReactions(int competition_id)
+        {
+            return context.GetReactions(competition_id);
+        }
+
         public List<Driver> GetDrivers()
         {
             return context.GetDrivers();
@@ -72,6 +77,11 @@ namespace Repositories
         public Driver GetDriver(int id)
         {
             return context.GetDriver(id);
+        }
+
+        public void AddReaction(Reaction r)
+        {
+            context.AddReaction(r);
         }
     }
 }

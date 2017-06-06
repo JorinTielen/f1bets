@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Models;
 
 namespace Repositories.Queries
 {
@@ -74,6 +75,26 @@ namespace Repositories.Queries
         internal static string GetDrivers()
         {
             return $"SELECT * FROM [Driver]";
+        }
+
+        internal static string GetReactions(int competition_id)
+        {
+            return $"SELECT r.id AS reaction_id, r.[text], u.id AS [user_id], rc.competition_id FROM Reaction r JOIN Reaction_User ru ON ru.reaction_id = r.id JOIN [User] u ON ru.[user_id] = u.id JOIN Reaction_Competition rc ON rc.reaction_id = r.id WHERE rc.competition_id = {competition_id} AND r.replyto_id is NULL";
+        }
+
+        internal static string GetReplies(int id)
+        {
+            return $"SELECT r.id AS reaction_id, r.[text], u.id AS [user_id], rc.competition_id FROM Reaction r JOIN Reaction_User ru ON ru.reaction_id = r.id JOIN [User] u ON ru.[user_id] = u.id JOIN Reaction_Competition rc ON rc.reaction_id = r.id WHERE r.replyto_id = {id}";
+        }
+
+        internal static string GetReaction(int id)
+        {
+            return $"SELECT r.id AS reaction_id, r.[text], u.id AS [user_id], rc.competition_id FROM Reaction r JOIN Reaction_User ru ON ru.reaction_id = r.id JOIN [User] u ON ru.[user_id] = u.id JOIN Reaction_Competition rc ON rc.reaction_id = r.id WHERE r.id = {id}";
+        }
+
+        internal static string AddReaction(Reaction r)
+        {
+            return $"EXEC AddReaction @Text = '{r.Text}', @User_id = {r.User.ID}, @Competition_id = {r.Competition_id}";
         }
     }
 }

@@ -389,5 +389,118 @@ namespace Repositories.RepositoryContexts
                 }
             }
         }
+
+        public List<Reaction> GetReactions(int competition_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetReactions(competition_id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        UserRepositorySQLContext userRepo = new UserRepositorySQLContext();
+                        List<Reaction> reactions = new List<Reaction>();
+                        while (reader.Read())
+                        {
+                            
+                            Reaction r = new Reaction();
+                            r.ID = (int)reader["reaction_id"];
+                            r.Text = (string)reader["text"];
+                            r.Competition_id = (int)reader["competition_id"];
+                            r.User = userRepo.GetUser((int)reader["user_id"]);
+
+                            r.Replies = GetReplies(r.ID);
+                            reactions.Add(r);
+                        }
+                        return reactions;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public List<Reaction> GetReplies(int reaction_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetReplies(reaction_id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        UserRepositorySQLContext userRepo = new UserRepositorySQLContext();
+                        List<Reaction> reactions = new List<Reaction>();
+                        while (reader.Read())
+                        {
+
+                            Reaction r = new Reaction();
+                            r.ID = (int)reader["reaction_id"];
+                            r.Text = (string)reader["text"];
+                            r.Competition_id = (int)reader["competition_id"];
+                            r.User = userRepo.GetUser((int)reader["user_id"]);
+
+                            reactions.Add(r);
+                        }
+                        return reactions;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public Reaction GetReaction(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.GetReaction(id), connection);
+                connection.Open();
+                try
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        UserRepositorySQLContext userRepo = new UserRepositorySQLContext();
+                        Reaction r = new Reaction();
+                        while (reader.Read())
+                        {
+                            r.ID = (int)reader["reaction_id"];
+                            r.Text = (string)reader["text"];
+                            r.Competition_id = (int)reader["competition_id"];
+                            r.User = userRepo.GetUser((int)reader["user_id"]);
+                        }
+                        return r;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void AddReaction(Reaction r)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.AddReaction(r), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
     }
 }

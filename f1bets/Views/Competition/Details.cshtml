@@ -19,7 +19,7 @@
             <select asp-for="SelectedDriver1_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
+                    <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>
@@ -28,7 +28,7 @@
             <select asp-for="SelectedDriver2_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
+                    <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>
@@ -37,7 +37,7 @@
             <select asp-for="SelectedDriver3_id" class="form-control">
                 @foreach (var driver in ViewBag.CompetitionData.Drivers)
                 {
-                <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
+                    <option value="@driver.ID">@(driver.Name + " " + driver.SurName)</option>
                 }
             </select>
         </div>
@@ -98,6 +98,42 @@
         </tbody>
     </table>
 }
+
+<h3 class="h3">Reactions:</h3>
+
+<form asp-controller="Competition" asp-action="AddReaction" method="post">
+    @Html.Hidden("Competition_id", (int)ViewBag.CompetitionData.Competition.ID)
+    <div class="input-group" style="margin-bottom: 10px">
+        <span class="input-group-addon" id="text-addon">Type your reply:</span>
+        <input class="form-control" type="text" name="Text" value="" aria-describedby="text-addon" />
+        <span class="input-group-btn pull-left">
+            <button type="submit" class="btn btn-default">Post Reaction</button>
+        </span>
+    </div>
+</form>
+
+
+@foreach (var reaction in ViewBag.Reactions)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="label label-info">@reaction.User.Username</p>
+            <p class="">@reaction.Text</p>
+            <a class="btn btn-primary" style="margin-bottom: 10px">reply</a>
+            @foreach (var reply in reaction.Replies)
+            {
+                <div class="panel panel-default" style="margin-left: 25px">
+                    <div class="panel body">
+                        <p class="label label-info">@reply.User.Username</p>
+                        <p class="">@reply.Text</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
 
 @section Scripts
 {
