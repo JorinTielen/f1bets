@@ -444,6 +444,7 @@ namespace Repositories.RepositoryContexts
                             r.Text = (string)reader["text"];
                             r.Competition_id = (int)reader["competition_id"];
                             r.User = userRepo.GetUser((int)reader["user_id"]);
+                            r.Replies = GetReplies(r.ID);
 
                             reactions.Add(r);
                         }
@@ -491,6 +492,23 @@ namespace Repositories.RepositoryContexts
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(CompetitionQueries.AddReaction(r), connection);
+                connection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void AddReply(Reaction r, int replyto_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(CompetitionQueries.AddReply(r, replyto_id), connection);
                 connection.Open();
                 try
                 {

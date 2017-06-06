@@ -96,5 +96,11 @@ namespace Repositories.Queries
         {
             return $"EXEC AddReaction @Text = '{r.Text}', @User_id = {r.User.ID}, @Competition_id = {r.Competition_id}";
         }
+
+        internal static string AddReply(Reaction r, int replyto_id)
+        {
+            return $"EXEC AddReply @Text = '{r.Text}', @User_id = {r.User.ID}, @Competition_id = {r.Competition_id}, @Replyto_id = {replyto_id}";
+
+        }
     }
 }

@@ -23,5 +23,6 @@ namespace Repositories.RepositoryContexts
         List<Driver> GetDrivers();
         List<Reaction> GetReactions(int competition_id);
         void AddReaction(Reaction r);
+        void AddReply(Reaction r, int replyto_id);
     }
 }

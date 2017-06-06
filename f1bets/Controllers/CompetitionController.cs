@@ -90,5 +90,28 @@ namespace f1bets.Controllers
                 return RedirectToAction("Login", "User");
             }
         }
+
+        public IActionResult AddReply(Reaction r)
+        {
+            string username = HttpContext.Session.GetString("Account");
+            if (username != null)
+            {
+                try
+                {
+                    r.User = userRepo.GetUser(username);
+                    repo.AddReply(r, r.Replyto_id);
+
+                    return RedirectToRoute("competition", new { action = "Details", id = r.Competition_id });
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "User");
+            }
+        }
     }
 }

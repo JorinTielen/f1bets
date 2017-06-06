@@ -83,5 +83,10 @@ namespace Repositories
         {
             context.AddReaction(r);
         }
+
+        public void AddReply(Reaction r, int replyto_id)
+        {
+            context.AddReply(r, replyto_id);
+        }
     }
 }

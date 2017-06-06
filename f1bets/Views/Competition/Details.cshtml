@@ -1,5 +1,6 @@
 ﻿@using Models
 @using f1bets.ViewModels
+@using f1bets.Helpers;
 @model PredictionViewModel
 
 <div class="jumbotron">
@@ -104,7 +105,7 @@
 <form asp-controller="Competition" asp-action="AddReaction" method="post">
     @Html.Hidden("Competition_id", (int)ViewBag.CompetitionData.Competition.ID)
     <div class="input-group" style="margin-bottom: 10px">
-        <span class="input-group-addon" id="text-addon">Type your reply:</span>
+        <span class="input-group-addon" id="text-addon">Type your reaction:</span>
         <input class="form-control" type="text" name="Text" value="" aria-describedby="text-addon" />
         <span class="input-group-btn pull-left">
             <button type="submit" class="btn btn-default">Post Reaction</button>
@@ -112,28 +113,7 @@
     </div>
 </form>
 
-
-@foreach (var reaction in ViewBag.Reactions)
-{
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <p class="label label-info">@reaction.User.Username</p>
-            <p class="">@reaction.Text</p>
-            <a class="btn btn-primary" style="margin-bottom: 10px">reply</a>
-            @foreach (var reply in reaction.Replies)
-            {
-                <div class="panel panel-default" style="margin-left: 25px">
-                    <div class="panel body">
-                        <p class="label label-info">@reply.User.Username</p>
-                        <p class="">@reply.Text</p>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-
-
+@Html.Raw(MyHTMLHelpers.ReactionDiv(Html, (List<Reaction>)ViewBag.Reactions, (int)ViewBag.CompetitionData.Competition.ID))
 
 @section Scripts
 {

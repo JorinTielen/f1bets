@@ -10,6 +10,7 @@ namespace Models
         public int Competition_id { get; set; }
         public User User { get; set; }
         public List<Reaction> Replies { get; set; }
+        public int Replyto_id { get; set; }
         public string Text { get; set; }
     }
 }
