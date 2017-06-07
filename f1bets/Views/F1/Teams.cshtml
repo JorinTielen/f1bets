@@ -1,0 +1,17 @@
+@using Models
+@model Team
+
+@{
+    ViewData["Title"] = @Model.Name;
+}
+
+<h2>@Model.Name </h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Team stats</div>
+    <div class="panel-body">
+        <p>Total World Championships:  @Model.TotalWCC</p>
+        <p>Total Wins: @Model.TotalWins</p>
+        <p>Total Podiums: @Model.TotalPodiums</p>
+    </div>
+</div>

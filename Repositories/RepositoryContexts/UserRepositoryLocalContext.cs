@@ -102,6 +102,11 @@ namespace Repositories.RepositoryContexts
             return null;
         }
 
+        public IEnumerable<string> GetUserNames()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<UserFriend> GetWaitingUserFriends(int id)
         {
             throw new NotImplementedException();

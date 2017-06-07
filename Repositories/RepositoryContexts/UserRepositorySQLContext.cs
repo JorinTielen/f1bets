@@ -273,5 +273,31 @@ namespace Repositories.RepositoryContexts
                 }
             }
         }
+
+        public IEnumerable<string> GetUserNames()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(UserQueries.GetUsernames(), connection);
+                connection.Open();
+                try
+                {
+                    List<string> usernames = new List<string>();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            usernames.Add((string)reader["username"]);
+                        }
+                    }
+                    return usernames;
+                }
+                catch (SqlException e)
+                {
+                    throw e;
+                }
+            }
+        }
     }
 }

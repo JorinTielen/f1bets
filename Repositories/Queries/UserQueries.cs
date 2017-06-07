@@ -67,5 +67,10 @@ namespace Repositories.Queries
         {
             return $"DELETE FROM [User_Friend] WHERE (sender_user_id = {u.ID} AND reciever_user_id = {id}) OR (sender_user_id = {id} AND reciever_user_id = {u.ID})";
         }
+
+        internal static string GetUsernames()
+        {
+            return $"SELECT username FROM [User]";
+        }
     }
 }

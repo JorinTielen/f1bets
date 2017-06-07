@@ -61,6 +61,8 @@ namespace f1bets
             routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}")
                     .MapRoute("user", "User/{username}/{action}", new { controller = "User" })
                     .MapRoute("prediction", "{controller=Prediction}/{action=Place}/{id}")
+                    .MapRoute("team", "F1/{action}/{id}", new { controller = "F1", action = "Team" })
+                    .MapRoute("driver", "F1/{action}/{id}", new { controller = "F1", action = "Driver"})
                     .MapRoute("reaction", "{controller=Competition}/{action=AddReaction}/{id}")
                     .MapRoute("reply", "{controller=Competition}/{action=AddReply}/{competition_id}/{replyto_id}")
                     .MapRoute("competition", "Competition/{id}/{action}", new { controller = "Competition" });

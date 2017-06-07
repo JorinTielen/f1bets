@@ -5,7 +5,7 @@ using Models;
 
 namespace Repositories.Queries
 {
-    static class CompetitionQueries
+    public static class CompetitionQueries
     {
         public static string GetCompetitions()
         {

@@ -19,5 +19,6 @@ namespace Repositories.RepositoryContexts
         void AcceptUserFriend(User u, int? friend_id);
         void AddFriend(User u, int? id);
         void DeleteUserFriend(User u, int? id);
+        IEnumerable<string> GetUserNames();
     }
 }

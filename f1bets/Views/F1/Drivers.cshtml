@@ -1,0 +1,20 @@
+@using Models
+@using f1bets.ViewModels
+@model DriverViewModel
+
+@{
+    ViewData["Title"] = @Model.Driver.SurName;
+}
+
+<h2>@Model.Driver.Name @Model.Driver.SurName</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Driver stats</div>
+    <div class="panel-body">
+        <p>Total World Championships:  @Model.Driver.TotalWDC</p>
+        <p>Total Wins: @Model.Driver.TotalWins</p>
+        <p>Total Podiums: @Model.Driver.TotalPodiums</p>
+
+        <p>Total Race Starts: @Model.Driver.TotalStarts</p>
+    </div>
+</div>

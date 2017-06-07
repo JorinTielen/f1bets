@@ -29,6 +29,11 @@ namespace Repositories
             context.CreateUser(username, password, email);
         }
 
+        public IEnumerable<string> GetUserNames()
+        {
+            return context.GetUserNames();
+        }
+
         public void EditUser(int id, string username, string password, string email)
         {
             context.EditUser(id, username, password, email);

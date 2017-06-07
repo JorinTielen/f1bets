@@ -1,0 +1,79 @@
+@using Models
+@using f1bets.ViewModels
+@model DriverViewModel
+
+@{
+    ViewData["Title"] = "F1DB";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Drivers</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Driver
+                    </th>
+                    <th>
+                        Nationality
+                    </th>
+                    <th>
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var driver in ViewBag.Drivers)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Drivers" asp-route-id="@driver.ID">@driver.Name @driver.SurName</a>
+                        </td>
+                        <td>
+                            @driver.Nationality.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h2>Teams</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Team
+                    </th>
+                    <th>
+                        Chassis
+                    </th>
+                    <th>
+                        Nationality
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var team in ViewBag.Teams)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Teams" asp-route-id="@team.ID">@team.Name</a>
+                        </td>
+                        <td>
+                            @team.Chassis
+                        </td>
+                        <td>
+                            @team.Nationality.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
