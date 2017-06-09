@@ -9,8 +9,8 @@ namespace Repositories.RepositoryContexts
     {
         private List<User> users = new List<User>()
         {
-            new User(1, "admin", "admin", "admin@admin.com", true),
-            new User(2, "user", "user", "user@user.com", false),
+            new User(1, "admin", "adminpassword", "admin@admin.com", true),
+            new User(2, "user", "userpassword", "user@user.com", false),
         };
 
         public void AcceptUserFriend(User u, int? friend_id)
@@ -20,7 +20,13 @@ namespace Repositories.RepositoryContexts
 
         public void AddFriend(User u, int? id)
         {
-            throw new NotImplementedException();
+            foreach (var user in users)
+            {
+                if (user.ID == (int)id)
+                {
+                    user.Friends.Add(u);
+                }
+            }
         }
 
         public void CreateUser(string username, string password, string email)
@@ -35,7 +41,13 @@ namespace Repositories.RepositoryContexts
 
         public void DeleteUserFriend(User u, int? id)
         {
-            throw new NotImplementedException();
+            foreach (var user in users)
+            {
+                if (user.ID == (int)id)
+                {
+                    user.Friends.Remove(u);
+                }
+            }
         }
 
         public void EditUser(int id, string username, string password, string email)
@@ -53,7 +65,8 @@ namespace Repositories.RepositoryContexts
 
         public List<User> GetAcceptedFriends(int id)
         {
-            throw new NotImplementedException();
+            User u = GetUser(id);
+            return u.Friends;
         }
 
         public int GetID(string username)
@@ -70,7 +83,14 @@ namespace Repositories.RepositoryContexts
 
         public string GetPassword(string username)
         {
-            throw new NotImplementedException();
+            foreach (var user in users)
+            {
+                if (user.Username == username)
+                {
+                    return user.Password;
+                }
+            }
+            return "";
         }
 
         public List<UserFriend> GetPendingUserFriends(int id)
@@ -104,7 +124,12 @@ namespace Repositories.RepositoryContexts
 
         public IEnumerable<string> GetUserNames()
         {
-            throw new NotImplementedException();
+            List<string> usernames = new List<string>();
+            foreach (var user in users)
+            {
+                usernames.Add(user.Username);
+            }
+            return usernames;
         }
 
         public List<UserFriend> GetWaitingUserFriends(int id)

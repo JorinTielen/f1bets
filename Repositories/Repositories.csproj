@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win7-x64</RuntimeIdentifiers>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />

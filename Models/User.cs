@@ -13,7 +13,7 @@ namespace Models
 
         public virtual string Email { get; set; }
 
-        public List<User> Friends { get; set; }
+        public List<User> Friends { get; set; } = new List<User>();
 
         public User(string username, string password)
         {

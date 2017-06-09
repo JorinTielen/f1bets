@@ -89,6 +89,8 @@ namespace f1bets.Controllers
                     ViewBag.LoggedInUser.Friends = repo.GetAcceptedFriends(ViewBag.LoggedInUser.ID);
                     
                     ViewBag.ProfileType = DetermineProfileType(u, ViewBag.LoggedInUser);
+                    PredictionRepository tempRepo = new PredictionRepository(new PredictionRepositorySQLContext());
+                    ViewBag.Predictions = tempRepo.GetAllPredictions(u);
                     return View(u);
                 }
                 else
